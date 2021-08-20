@@ -24,17 +24,31 @@ const EVENT_TYPE = {
 }
 class BPartnerContract extends Contract {
 
+    /**
+    **  helper function
+    **/
     async getMyMSPId(ctx){
         let cid = new ClientIdentity(ctx.stub);
         const organizationId = await cid.getMSPID();
         return organizationId;
     }
 
+    /**
+    **  helper function
+    **/
     async teamExists(ctx, teamId) {
         const buffer = await ctx.stub.getState(teamId);
         return (!!buffer && buffer.length > 0);
     }
 
+    /**
+    **  create a new team to the channel
+    **  @param ctx default
+    **  @param teamId It has to be a unique string
+    **  @param status one of the status form STATUS
+    **  @param teamType a string indicating what the team is doing
+    **  @param teamMembers optional, a array of team members
+    **/
     async createTeam(ctx, teamId, status, teamType, teamMembers) {
         teamId = teamId.toString();
         const organization = await this.getMyMSPId(ctx);
@@ -58,6 +72,9 @@ class BPartnerContract extends Contract {
         return "Team Created";
     }
 
+    /**
+    **  query a specific team with the teamID
+    **/
     async queryTeam(ctx, teamId) {
         const exists = await this.teamExists(ctx, teamId);
         if (!exists) {
@@ -68,6 +85,9 @@ class BPartnerContract extends Contract {
         return asset;
     }
 
+    /**
+    **  query all teams in the channel
+    **/
     async queryAllTeams(ctx) {
         const startKey = '';
         const endKey = '';
