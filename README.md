@@ -12,7 +12,7 @@ I use Hyperledger Fabric in this project because it is a decentralized system an
 Hopefully this project can be the opportunity for parter companies to share more their resources, and break the data isolation.
 
 
-## ARCHITECTURE
+## ARCHITECTURE DIAGRAM
 ![architecture](./architecturediagram.png)
 
 Currently it is still a MVP, only the chaincode part done, and the backend allowing to access to the blokchian diretly, but it should be improved with the features: uploading file, user notification, proposal search, etc. 
@@ -20,8 +20,12 @@ Currently it is still a MVP, only the chaincode part done, and the backend allow
 The Frontend is to be developed.
 
 
-## FSM
+## FSM DIAGRAM
 ![fsm](./FSM.png)
+
+
+## SEQUENCE DIAGRAM
+![sequence](./sequence.png)
 
 
 
