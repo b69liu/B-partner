@@ -56,7 +56,8 @@ async function proposalInitHandler(eventName, eventType, details){
             eventName,
             eventType,
             sender,
-            receiver
+            receiver,
+            read: false
         });
     }
     
@@ -80,7 +81,7 @@ async function proposalAcceptHandler(eventName, eventType, details){
         if(proposal.eventType === EVENT_TYPE.PROPOSAL_INIT){
             // update proposal
             await Proposal.updateOne({proposalId},
-                {$set: {eventType}}
+                {$set: {eventType, read: false}}
             );
         }
     }
