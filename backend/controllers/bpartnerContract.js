@@ -1,4 +1,3 @@
-const User = require('../model/User');
 const {
     queryTeam,
     queryAllTeams,
@@ -72,10 +71,9 @@ const createTeamResolver = async (req, res) => {
 }
 
 const addMemberResolver = async (req, res) => {
-    const {userId, role} = req;
     const {teamId, memberId, memberName, role} = req.body;
     // only admin(company manager) can change the team member
-    if(role!=='admin'){
+    if(req.role!=='admin'){
         return res.status(403).json({message:"Not admin account."});
     }
     const result = await addMember(teamId, memberId, memberName, role);
@@ -87,10 +85,9 @@ const addMemberResolver = async (req, res) => {
 }
 
 const editMemberResolver = async (req, res) => {
-    const {userId, role} = req;
     const {teamId, memberId, memberName, role} = req.body;
     // only admin(company manager) can change the team member
-    if(role!=='admin'){
+    if(req.role!=='admin'){
         return res.status(403).json({message:"Not admin account."});
     }
     const result = await editMember(teamId, memberId, memberName, role);

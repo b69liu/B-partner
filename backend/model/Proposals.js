@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 
+// eventName is the private collection name
 const proposalSchema = new mongoose.Schema({
     proposalId: String,
+    eventName: String,
     eventType: String,
     sender: String,
     receiver: String,

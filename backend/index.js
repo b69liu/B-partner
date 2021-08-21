@@ -18,17 +18,16 @@ const {
   sendPaymentRecordResolver,
   sendTaskResultReportResolver
 } = require("./controllers/bpartnerContract");
+const {initBlockchainConnection} = require("./services/invokeContract");
 const {auth} = require("./services/auth");
 
-
-const connectionString ="mongodb://appUser:user009@localhost:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false";
-
+const DATABASE_URL ="mongodb://appUser:user009@localhost:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false";
 
 // wrapped server start code
-function startServer() {
-  const app = express();
-  const http = require("http").Server(app);
-  mongoose.connect(connectionString, { useNewUrlParser: true,  useUnifiedTopology: true  }).then(
+async function startServer() {
+  
+  // connect to database
+  await mongoose.connect(DATABASE_URL, { useNewUrlParser: true,  useUnifiedTopology: true  }).then(
     () => {
       console.log("Mongoose connected successfully ");
     },
@@ -36,7 +35,13 @@ function startServer() {
       console.log("Mongoose could not connect to database: " + error);
     }
   );
-    
+
+  // connect to blockchain
+  await initBlockchainConnection();
+
+  // build express server
+  const app = express();
+  const http = require("http").Server(app);
   app.use(cors());
   //   app.use(express.static(path.join(__dirname, "./staticweb")));  // front end is still under development :</
   app.use(express.json());
@@ -44,12 +49,10 @@ function startServer() {
   app.use("/sign_in", signIn);
   app.use("/private/sign_up", signUp);
 
-
   // queries
   app.get("/test",(req,res)=>res.status(200).send("success"));
   app.get("/private/queryTeam",queryTeamResolver);
   app.get("/private/queryAllTeams",queryAllTeamsResolver);
-
   // TODO: add event listener and store proposal data to our databse and query from database. It can be also done in a worker server.
   app.get("/private/queryProposals",queryProposalsResolver);
 

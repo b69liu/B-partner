@@ -8,6 +8,7 @@
 const { Gateway, Wallets, DefaultEventHandlerStrategies } = require('fabric-network');
 const fs = require('fs');
 const path = require('path');
+const {eventListener} = require('./eventListeners');
 
 
 let gateway = null;
@@ -18,8 +19,8 @@ async function connect(){
     let ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
 
     // Create a new file system based wallet for managing identities.
-    const walletPath = path.resolve(__dirname, 'wallet');
-    const wallet = await Wallets.newFileSystemWallet(walletPath);
+    const walletPath = path.resolve(__dirname, 'wallet');                      // THIS WALLET IS FOR TESTING ONLY
+    const wallet = await Wallets.newFileSystemWallet(walletPath);              // DO NOT PUT YOUR REAL ONE TO GITHUB
 
     // for event listener
     const connectOptions = {
@@ -135,48 +136,35 @@ async function sendTaskResultReport(proposalId, fromOrgnization,resultReport) {
 
 
 
-
-
-
-
-
-
 // // if this one report "ENDORSEMENT_POLICY_FAILURE" please check ${CORE_PEER_LOCALMSPID} and make sure you are the correct orgnization
 // // if it still not working, then check your docker log
 // // Be careful about the paths of certificate file
-// async function startCommandListener(){
-//     const listener = async (event) => {
-//         if (event.eventName === 'command') {
-//             const details = event.payload.toString('utf8');
-//             // Run business process to handle orders
-//             console.log("command:",details);
-//         }
-//     };
-//     process.on('exit', async()=>{
-//         // Disconnect from the gateway.
-//         await gateway.disconnect();
-//     });
-//     return contract.addContractListener(listener);
-// }
+async function starteventListener(){
+    process.on('exit', async()=>{
+        // Disconnect from the gateway.
+        await gateway.disconnect();
+    });
+    return contract.addContractListener(eventListener);
+}
 
-async function init(){
+async function initBlockchainConnection(){
     await connect();
-    // startCommandListener();
+    await starteventListener();
 }
-async function test(){
-    await init();
-    // await startCommandListener();
-    queryAllTeams();
-}
+// async function test(){
+//     await init();
+//     // await startCommandListener();
+//     queryAllTeams();
+// }
 // registerNewIot("2", "MonitorB")
 // getAllIotInfo().then((value)=>console.log(value));
 
 // sendCommand('1', '1', 'go go go');
-test();
+// test();
 
-// init();
 
 module.exports = {
+    initBlockchainConnection,
     queryTeam,
     queryAllTeams,
     queryProposals,
