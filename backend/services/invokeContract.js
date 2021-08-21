@@ -80,7 +80,6 @@ async function invoke(method, ...paramters) {
 }
 
 
-
 /*
 **  not expose the the common helper function directly to the next layer
 **  to keep the reference and signature, as well as to limit the access
@@ -99,8 +98,6 @@ async function queryProposals(privateCollectionName) {
     const result = await query("queryProposals", privateCollectionName);
     return result;
 }
-
-
 
 // invokes
 async function createTeam(teamId, status, teamType, teamMembers) {
@@ -135,10 +132,6 @@ async function sendTaskResultReport(proposalId, fromOrgnization,resultReport) {
 }
 
 
-
-// // if this one report "ENDORSEMENT_POLICY_FAILURE" please check ${CORE_PEER_LOCALMSPID} and make sure you are the correct orgnization
-// // if it still not working, then check your docker log
-// // Be careful about the paths of certificate file
 async function starteventListener(){
     process.on('exit', async()=>{
         // Disconnect from the gateway.
@@ -151,17 +144,6 @@ async function initBlockchainConnection(){
     await connect();
     await starteventListener();
 }
-// async function test(){
-//     await init();
-//     // await startCommandListener();
-//     queryAllTeams();
-// }
-// registerNewIot("2", "MonitorB")
-// getAllIotInfo().then((value)=>console.log(value));
-
-// sendCommand('1', '1', 'go go go');
-// test();
-
 
 module.exports = {
     initBlockchainConnection,
