@@ -1,5 +1,15 @@
 # B-partner
-This is a decentrolised platform based on [HYPERLEDGER FABRIC](https://www.hyperledger.org/use/fabric) allowing companies to share their employees.
+
+
+## About The Project
+This is a decentrolised platform based on private blokchian allowing companies to share their employees.
+
+### Built With
+* [HYPERLEDGER FABRIC](https://www.hyperledger.org/use/fabric)
+* [Express](https://expressjs.com/)
+* [Node.js](https://nodejs.org/en/)
+* [MongoDB](https://www.mongodb.com/)
+* [React](https://reactjs.org/)
 
 
 ## USE CASE
@@ -27,6 +37,9 @@ The Frontend is to be developed.
 ## SEQUENCE DIAGRAM
 ![sequence](./sequence.png)
 
+
+## Getting Started
+You shuold run this hyperledger part on kubernetes, and the backend part on any server with npm environment.
 
 
 ## Instruction
